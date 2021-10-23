@@ -71,8 +71,9 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'marketFinance.wsgi.application'
-ASGI_APPLICATION = "marketFinance.asgi.application"
+ASGI_APPLICATION = 'marketFinance.asgi.application'
 
+CELERY_BROKER_URL = 'redis://localhost:6379'
 CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',

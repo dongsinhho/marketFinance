@@ -11,7 +11,16 @@ class User(models.Model):
 class Coin(models.Model):
     time = models.DateTimeField(auto_now=True, auto_created=True)
     typeCoin = models.CharField(max_length=100)
-    value = models.DecimalField(decimal_places=20, max_digits=50)
+    value = models.FloatField(default=0, blank=True)
+    def __str__(self):
+        return str(self.typeCoin)
+
+# class CoinManager(models.Manager):
+#     def create_coin(self, typeCoin, value):
+#         coin = self.create(typeCoin=typeCoin, value=value)
+#         # do something with the book
+#         return coin
+    
 
 class Notify(models.Model):
     owner = models.ForeignKey(User,on_delete=models.CASCADE)
