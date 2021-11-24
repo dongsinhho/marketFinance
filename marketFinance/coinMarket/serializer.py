@@ -22,17 +22,15 @@ class UserSerializer(serializers.ModelSerializer):
 class UserDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ["username","avatar", "balance","email", "create"]
+        fields = ["username","email", "created"]
 
 
 class UserUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ["username","avatar", "balance"]
+        fields = ["username",]
     def update(self, instance, validated_data):
         instance.username = validated_data.get('username',instance.username)
-        instance.avatar = validated_data.get('avatar', instance.avatar)
-        instance.balance = validated_data.get('balance', instance.balance)
         #instance.password = make_password(validated_data.get('password'))
         instance.save()
         return instance

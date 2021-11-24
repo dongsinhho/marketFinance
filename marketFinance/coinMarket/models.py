@@ -5,18 +5,16 @@ from django.contrib.auth.models import AbstractUser, UserManager
     
 class TypeCoin(models.Model):
     name = models.CharField(max_length=100)
-    imageURL = models.URLField(max_length=255)
+    icon = models.ImageField(default=None, upload_to='icon')
     ranked = models.IntegerField()
 
 
 #Cần lưu ý type coin của user
 class User(AbstractUser):
     username = models.CharField(max_length=255)
-    email = models.EmailField(max_length=50)
+    email = models.EmailField(max_length=50, unique=True)
     password = models.CharField(max_length=255)
-    typeCoin = models.ForeignKey(TypeCoin, on_delete=models.DO_NOTHING)
     created = models.DateTimeField(auto_created=True,auto_now=True)
-    #notify = 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
     objects = UserManager()
@@ -39,3 +37,7 @@ class Notify(models.Model):
     min_threshold = models.DecimalField(decimal_places=20, max_digits=50)
     isNotify = models.BooleanField(default=False)
     created = models.DateTimeField(auto_created=True,auto_now=True)
+
+class FavoriteCoin(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    coin = models.ForeignKey(TypeCoin, on_delete=models.CASCADE)
