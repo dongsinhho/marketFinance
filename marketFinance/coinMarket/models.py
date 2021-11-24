@@ -1,26 +1,36 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser, UserManager
 
 # Create your models here.
-class User(models.Model):
+    
+class TypeCoin(models.Model):
+    name = models.CharField(max_length=100)
+    imageURL = models.URLField(max_length=255)
+    ranked = models.IntegerField()
+
+
+#Cần lưu ý type coin của user
+class User(AbstractUser):
     username = models.CharField(max_length=255)
-    phone = models.CharField(max_length=20)
     email = models.EmailField(max_length=50)
     password = models.CharField(max_length=255)
+    typeCoin = models.ForeignKey(TypeCoin, on_delete=models.DO_NOTHING)
     created = models.DateTimeField(auto_created=True,auto_now=True)
+    #notify = 
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['username']
+    objects = UserManager()
+    def __str__(self):
+        return self.username
+
 
 class Coin(models.Model):
     time = models.DateTimeField(auto_now=True, auto_created=True)
-    typeCoin = models.CharField(max_length=100)
     value = models.FloatField(default=0, blank=True)
+    typeCoin = models.ForeignKey(TypeCoin, on_delete=models.CASCADE)
     def __str__(self):
         return str(self.typeCoin)
 
-# class CoinManager(models.Manager):
-#     def create_coin(self, typeCoin, value):
-#         coin = self.create(typeCoin=typeCoin, value=value)
-#         # do something with the book
-#         return coin
-    
 
 class Notify(models.Model):
     owner = models.ForeignKey(User,on_delete=models.CASCADE)
