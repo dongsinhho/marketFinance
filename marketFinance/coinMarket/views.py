@@ -78,3 +78,9 @@ class UserDetail(APIView):
         return Response({
             "message": "update successful !"
         }, status=status.HTTP_202_ACCEPTED)
+
+
+class CoinInfo(APIView):
+    permission_classes = [permissions.AllowAny]
+    def get(self, request):
+        pass
