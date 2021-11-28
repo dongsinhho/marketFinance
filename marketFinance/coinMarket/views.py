@@ -133,3 +133,11 @@ class CoinData(APIView):
             return Response({
                 "error_message":"Oops! Something went wrong! Help us improve your experience by sending an error report"
             }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)          
+
+
+class CreateNotification(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    def get(self, request):
+        pass
+    def post(self, request):
+        pass

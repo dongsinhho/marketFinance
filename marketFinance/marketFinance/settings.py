@@ -99,13 +99,23 @@ CHANNEL_LAYERS = {
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'finance',
+#         'USER': 'postgres',
+#         'PASSWORD': "Sinhlolfo3123",
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#     }
+# }
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'finance',
+        'NAME': 'postgres',
         'USER': 'postgres',
-        'PASSWORD': "Sinhlolfo3123",
-        'HOST': 'localhost',
+        'PASSWORD': "postgres",
+        'HOST': 'dbpostgres',
         'PORT': '5432',
     }
 }
