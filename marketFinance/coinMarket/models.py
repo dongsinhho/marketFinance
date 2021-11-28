@@ -7,6 +7,8 @@ class TypeCoin(models.Model):
     name = models.CharField(max_length=100)
     icon = models.ImageField(default=None, upload_to='icon')
     ranked = models.IntegerField()
+    def __str__(self):
+        return str(self.name)
 
 
 #Cần lưu ý type coin của user
@@ -27,16 +29,19 @@ class Coin(models.Model):
     value = models.FloatField(default=0, blank=True)
     typeCoin = models.ForeignKey(TypeCoin, on_delete=models.CASCADE)
     def __str__(self):
-        return str(self.typeCoin)
+        return str(self.typeCoin.name) + "  "+ str(self.time)
 
 
 class Notify(models.Model):
     owner = models.ForeignKey(User,on_delete=models.CASCADE)
-    typeCoin = models.ForeignKey(Coin,on_delete=models.CASCADE)
+    typeCoin = models.ForeignKey(TypeCoin,on_delete=models.CASCADE)
     max_threshold = models.DecimalField(decimal_places=20, max_digits=50)
     min_threshold = models.DecimalField(decimal_places=20, max_digits=50)
     isNotify = models.BooleanField(default=False)
     created = models.DateTimeField(auto_created=True,auto_now=True)
+    def __str__(self):
+        return str(self.owner)
+        
 
 class FavoriteCoin(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

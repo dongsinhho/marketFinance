@@ -138,6 +138,52 @@ class CoinData(APIView):
 class CreateNotification(APIView):
     permission_classes = [permissions.IsAuthenticated]
     def get(self, request):
-        pass
+        try:
+            userid = request.user.id
+            notify = Notify.objects.filter(owner__id=userid)
+            serializer = NotifySerializer(notify, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except:
+            return Response({
+                "error_message":"Oops! Something went wrong! Help us improve your experience by sending an error report"
+            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)   
     def post(self, request):
+        try:
+            request.data.update({"userid":request.user.id})
+            # print(request.data)
+            notifyserializer = CreateNotifySerializer()
+            createnotifyserializer = CreateNotifySerializer(data=request.data)
+            serializer = createnotifyserializer.create(validated_data=request.data) 
+            if serializer['status']:
+                return Response({
+                    'message': serializer['message']
+                }, status=status.HTTP_200_OK)
+            return Response({
+                    'error_messages': serializer['message'],
+                    'error_code': 400
+                }, status=status.HTTP_400_BAD_REQUEST) 
+        except:
+            return Response({
+                "error_message":"Oops! Something went wrong! Help us improve your experience by sending an error report"
+            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)   
+
+class DeleteUpdateNotification(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    def delete(self, request, pk):
+        try:
+            notify = Notify.objects.filter(pk=pk,owner__id=request.user.id)
+            if not notify:
+                return Response({
+                    'message': 'Not exist or you dont have permission with this notice'
+                }, status=status.HTTP_401_UNAUTHORIZED)
+            notify.delete()
+            return Response({
+                    'message': 'Notification deleted'
+                }, status=status.HTTP_200_OK)
+        except:
+            return Response({
+                "error_message":"Oops! Something went wrong! Help us improve your experience by sending an error report"
+            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR) 
+    def put(self, request, pk):
         pass
+

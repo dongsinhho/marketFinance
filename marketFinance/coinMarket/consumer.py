@@ -12,3 +12,4 @@ class WSConsummer(AsyncJsonWebsocketConsumer):
     async def send_new_data(self, event):
         data = event['text']
         await self.send(json.dumps(data))
+
