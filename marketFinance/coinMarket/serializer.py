@@ -43,3 +43,14 @@ class UserLoginSerializer(serializers.ModelSerializer):
     username = serializers.EmailField(required=True)
     password = serializers.CharField(required=True)
 
+
+class CoinInfoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TypeCoin
+        fields = ["pk", "name", "icon", "ranked"]
+
+class CoinDataSerializer(serializers.ModelSerializer):
+    #typeCoin = serializers.RelatedField(source='TypeCoin', read_only=True)
+    class Meta:
+        model = Coin
+        fields = ["time", "typeCoin", "value"]

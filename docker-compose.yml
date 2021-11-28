@@ -1,0 +1,49 @@
+version: "3.9"
+   
+services:
+  dbpostgres:
+    image: postgres
+    container_name: postgres
+    volumes:
+      - db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+  celery:
+    build: ./marketFinance
+    command: celery -A marketFinance worker -l info
+    volumes:
+      - ./marketFinance/:/usr/src/app/
+    depends_on:
+      - django
+      - redis
+  celery-beat:
+    build: ./marketFinance
+    command: celery -A marketFinance beat -l info
+    volumes:
+      - ./marketFinance/:/usr/src/app/
+    depends_on:
+      - django
+      - redis
+
+  django:
+    build: ./marketFinance
+    container_name: django
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./marketFinance/:/usr/src/app/
+    ports:
+      - "8000:8000"
+    depends_on:
+      - dbpostgres
+      - redis
+    environment:
+      - DEBUG=1
+      - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1
+  redis:
+    image: redis
+volumes:
+  db:
+
+
