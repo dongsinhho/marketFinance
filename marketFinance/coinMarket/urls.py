@@ -6,7 +6,7 @@ from . import views
 urlpatterns = [
     path("users/login", views.UserLoginView.as_view()),
     path("users/register", views.UserRegisterView.as_view(),name='register'),
-    path("users/<int:pk>", views.UserDetail.as_view()),
+    path("users/detail", views.UserDetail.as_view()),
     path("coins/info", views.CoinInfo.as_view()),
     path("coins/<str:time>/<int:pk>", views.CoinData.as_view()),
     path("users/notification", views.CreateNotification.as_view()),

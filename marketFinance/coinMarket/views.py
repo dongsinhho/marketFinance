@@ -69,14 +69,9 @@ class UserLoginView(APIView):
 
 class UserDetail(APIView):
     permission_classes = [permissions.IsAuthenticated]
-    def get(self, request, pk, format=None):
+    def get(self, request):
         try:
-            userCheck = request.user.id 
-            if userCheck != pk:
-                return Response({
-                    "error_message":"You don't have permission"
-                }, status=status.HTTP_401_UNAUTHORIZED)
-            user = User.objects.get(pk=pk)
+            user = User.objects.get(pk=request.user.id)
             serializer = UserDetailSerializer(user)
             return Response(serializer.data, status=status.HTTP_200_OK)
         except:
@@ -84,14 +79,9 @@ class UserDetail(APIView):
                 "error_message":"Oops! Something went wrong! Help us improve your experience by sending an error report"
             }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)          
 
-    def put(self, request, pk, format=None):
+    def put(self, request):
         try:
-            userCheck = request.user.id 
-            if userCheck != pk:
-                return Response({
-                    "error_message":"You don't have permission"
-                }, status=status.HTTP_401_UNAUTHORIZED)
-            user = User.objects.get(pk=pk)
+            user = User.objects.get(pk=request.user.id )
             serializer = UserUpdateSerializer()
             data = serializer.update(user,validated_data=request.data)
             return Response({
