@@ -47,12 +47,14 @@ def get_coins_data():
 # 'LTC/USDT','BUSD/USDT','BCH/USDT','ALGO/USDT','MATIC/USDT','XLM/USDT','VET/USDT','ATOM/USDT','ICP/USDT','ICP/USDT','AXS/USDT', 'FTT/USDT','FIL/USDT','FTM/USDT','TRX/USDT','ETC/USDT']
 
 def sendmail(email, coin):
-    send_mail(
-    'Market Finance Notification',
-    'The {} you tracked has exceeded the limit. Please visit Market Finance to check'.format(coin),
-    'MarketFinanceNT208@gmail.com',
-    ['sinhvua@gmail.com'])
-
+    try:    
+        send_mail(
+        'Market Finance Notification',
+        'The {} you tracked has exceeded the limit. Please visit Market Finance to check'.format(coin),
+        'MarketFinanceNT208@gmail.com',
+        [email])
+    except:
+        print("The email invalid")
 
 # def sendnotify():
 #     async_to_sync(channel_layer.group_send)('Coin', {'type': 'send_new_data', 'text': data_send})

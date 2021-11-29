@@ -7,10 +7,10 @@ app = Celery('marketFinance')
 app.config_from_object('django.conf:settings', namespace='CELERY')
 
 app.conf.beat_schedule = {
-    # 'get_coins_data': {
-    #     'task': 'coinMarket.tasks.get_coins_data',
-    #     'schedule': 3.0
-    # },
+    'get_coins_data': {
+        'task': 'coinMarket.tasks.get_coins_data',
+        'schedule': 3.0
+    },
     'send_mail_notify': {
         'task': 'coinMarket.tasks.send_mail_notify',
         'schedule': 30.0
