@@ -96,6 +96,16 @@ CHANNEL_LAYERS = {
     },
 }
 
+# CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
+# CHANNEL_LAYERS = {
+#     'default': {
+#         'BACKEND': 'channels_redis.core.RedisChannelLayer',
+#         'CONFIG': {
+#             "hosts": [('localhost', 6379)],
+#         },
+#     },
+# }
+
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
@@ -106,7 +116,7 @@ DATABASES = {
         'NAME': 'postgres',
         'USER': 'postgres',
         'PASSWORD': "postgres",
-        'HOST': 'dbpostgres',
+        'HOST': 'dbpostgresql',
         'PORT': '5432',
     }
 }

@@ -92,3 +92,13 @@ class CreateNotifySerializer(serializers.ModelSerializer):
             return {"status": False, "message": "Validated error, check your data !" }
 
 
+class GetFavoriteCoinSerializer(serializers.ModelSerializer):
+    coin = serializers.SlugRelatedField(read_only=True, slug_field="name")
+    class Meta:
+        model = FavoriteCoin
+        fields = ["coin"]
+
+class FavoriteCoinSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FavoriteCoin
+        fields = ["coin", "user"]

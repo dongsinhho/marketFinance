@@ -1,9 +1,9 @@
 version: "3.9"
    
 services:
-  dbpostgres:
+  dbpostgresql:
     image: postgres
-    container_name: postgres
+    container_name: postgresql
     volumes:
       - db:/var/lib/postgresql/data
     environment:
@@ -36,7 +36,7 @@ services:
     ports:
       - "8000:8000"
     depends_on:
-      - dbpostgres
+      - dbpostgresql
       - redis
     environment:
       - DEBUG=1

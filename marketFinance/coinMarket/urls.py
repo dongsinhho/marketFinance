@@ -11,4 +11,5 @@ urlpatterns = [
     path("coins/<str:time>/<int:pk>", views.CoinData.as_view()),
     path("users/notification", views.CreateNotification.as_view()),
     path("users/notification/<int:pk>", views.DeleteUpdateNotification.as_view()),
+    path("users/favorite", views.FavoriteCoinView.as_view())
 ]  + static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

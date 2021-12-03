@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django.contrib.auth import authenticate
 
-from .models import User
+from .models import *
 from .serializer import *
 
 import datetime
@@ -176,4 +176,63 @@ class DeleteUpdateNotification(APIView):
             }, status=status.HTTP_500_INTERNAL_SERVER_ERROR) 
     def put(self, request, pk):
         pass
+        # try:
+        #     pass
+        # except:
+        #     return Response({
+        #         "error_message":"Oops! Something went wrong! Help us improve your experience by sending an error report"
+        #     }, status=status.HTTP_500_INTERNAL_SERVER_ERROR) 
 
+class FavoriteCoinView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    def get(self, request):
+        try:
+            # input: nothing
+            # output: thong tin favorite coin cua user
+            user = request.user.id
+            coin = FavoriteCoin.objects.filter(user__id=user)
+            serializer = GetFavoriteCoinSerializer(coin, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK) 
+        except:
+            return Response({
+                "error_message":"Oops! Something went wrong! Help us improve your experience by sending an error report"
+            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    def post(self, request):
+        # try:
+            # input: thong tin coin id
+            # output: trang thai tao 
+            check = FavoriteCoin.objects.filter(user__id=request.user.id,coin__id=request.data["coin"])
+            if check:
+                return Response({
+                    "message": "This coin was exist in your favorite coin"
+                }, status=status.HTTP_409_CONFLICT)
+            request.data.update({"user":request.user.id})
+            serializer = FavoriteCoinSerializer(data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        # except:
+        #     return Response({
+        #         "error_message":"Oops! Something went wrong! Help us improve your experience by sending an error report"
+        #     }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    def delete(self, request):
+        # try:
+            # input: thong tin coin
+            # output: trang thai tao 
+            coin = FavoriteCoin.objects.filter(user__id=request.user.id,coin__id=request.data["coin"])
+            if coin:
+                coin.delete()
+                return Response({
+                    "message": "Delete successful"
+                },status=status.HTTP_200_OK)
+            return Response({
+                    "message": "Nothing"
+                },status=status.HTTP_404_NOT_FOUND)
+
+        # except:
+        #     return Response({
+        #         "error_message":"Oops! Something went wrong! Help us improve your experience by sending an error report"
+        #     }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
