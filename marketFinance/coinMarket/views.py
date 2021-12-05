@@ -186,17 +186,17 @@ class DeleteUpdateNotification(APIView):
 class FavoriteCoinView(APIView):
     permission_classes = [permissions.IsAuthenticated]
     def get(self, request):
-        try:
+        #try:
             # input: nothing
             # output: thong tin favorite coin cua user
             user = request.user.id
             coin = FavoriteCoin.objects.filter(user__id=user)
             serializer = GetFavoriteCoinSerializer(coin, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK) 
-        except:
-            return Response({
-                "error_message":"Oops! Something went wrong! Help us improve your experience by sending an error report"
-            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        # except:
+        #     return Response({
+        #         "error_message":"Oops! Something went wrong! Help us improve your experience by sending an error report"
+        #     }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     def post(self, request):
         try:
             # input: thong tin coin id
