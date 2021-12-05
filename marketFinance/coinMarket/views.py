@@ -174,8 +174,8 @@ class DeleteUpdateNotification(APIView):
             return Response({
                 "error_message":"Oops! Something went wrong! Help us improve your experience by sending an error report"
             }, status=status.HTTP_500_INTERNAL_SERVER_ERROR) 
-    def put(self, request, pk):
-        pass
+    # def put(self, request, pk):
+    #     pass
         # try:
         #     pass
         # except:
