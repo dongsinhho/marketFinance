@@ -218,11 +218,14 @@ class FavoriteCoinView(APIView):
                 "error_message":"Oops! Something went wrong! Help us improve your experience by sending an error report"
             }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-    def delete(self, request):
+class DeleteFavoriteCoinView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    def delete(self, request, pk):
         try:
             # input: thong tin coin
             # output: trang thai tao 
-            coin = FavoriteCoin.objects.filter(user__id=request.user.id,coin__id=request.data["coin"])
+
+            coin = FavoriteCoin.objects.filter(user__id=request.user.id,coin__id=pk)
             if coin:
                 coin.delete()
                 return Response({
