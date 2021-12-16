@@ -123,7 +123,7 @@ DATABASES = {
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'marketfinance',
+#         'NAME': 'finance',
 #         'USER': 'postgres',
 #         'PASSWORD': "Sinhlolfo3123",
 #         'HOST': 'localhost',

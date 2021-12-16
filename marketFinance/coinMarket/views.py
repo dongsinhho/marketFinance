@@ -115,8 +115,15 @@ class CoinData(APIView):
                 "error_message":"The time in the url invalid"
             }, status=status.HTTP_400_BAD_REQUEST) 
             
-            coindata = Coin.objects.filter(typeCoin__id=pk, time__second__lt=3 ,time__lte=datetime.datetime.today(), time__gt=datetime.datetime.today()-datetime.timedelta(days=validTime[time])).order_by('-time')
-            print(time)
+            if time == "day":
+                print("day")
+                #coindata = Coin.objects.filter(typeCoin__id=pk, time__second__lt=3 ,time__lte=datetime.datetime.today(), time__gt=datetime.datetime.today()-datetime.timedelta(days=validTime[time])).order_by('-time')
+                coindata = Coin.objects.filter(typeCoin__id=pk, time__second__lt=3 ,time__lte=datetime.datetime.today(), time__gt=datetime.datetime.today()-datetime.timedelta(days=validTime[time])).order_by('-time')
+                print(coindata)
+            elif time == "week":
+                coindata = Coin.objects.filter(typeCoin__id=pk, time__second__lt=3, time__minute__lt=5,time__lte=datetime.datetime.today(), time__gt=datetime.datetime.today()-datetime.timedelta(days=validTime[time])).order_by('-time')
+            else:
+                coindata = Coin.objects.filter(typeCoin__id=pk, time__second__lt=3, time__minute__lt=1,time__lte=datetime.datetime.today(), time__gt=datetime.datetime.today()-datetime.timedelta(days=validTime[time])).order_by('-time')
             serializer = CoinDataSerializer(coindata, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
         except:
